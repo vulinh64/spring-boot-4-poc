@@ -1,0 +1,5 @@
+databaseChangeLog:
+  - include:
+      file: 0001-create-employee-table.sql
+      relativeToChangelogFile: true
+

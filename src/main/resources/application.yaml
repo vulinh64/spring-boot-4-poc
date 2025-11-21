@@ -1,0 +1,21 @@
+application-properties:
+  realm-name: master
+  client-name: spring-client
+  no-auth-urls:
+    # OpenAPI Swagger URLs
+    - /swagger-ui.html
+    - /swagger-ui/**
+    - /v3/api-docs/**
+    - /v3/api-docs.yaml
+    # Actuator endpoints:
+    - /actuator/**
+server.port: 8088
+spring:
+  application.name: spring-boot-4-poc
+  datasource:
+    url: jdbc:postgresql://${DATABASE_HOST_PORT:localhost:5432}/${DATABASE_NAME:springboot4poc}
+    username: ${DATABASE_USERNAME:postgres}
+    password: ${DATABASE_PASSWORD:123456}
+  liquibase:
+    enabled: true
+  security.oauth2.resourceserver.jwt.issuer-uri: http://${KEYCLOAK_HOST:localhost:8080}/realms/${application-properties.realm-name}
