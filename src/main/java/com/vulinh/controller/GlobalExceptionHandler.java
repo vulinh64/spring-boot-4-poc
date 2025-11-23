@@ -1,7 +1,8 @@
-package com.vulinh;
+package com.vulinh.controller;
 
 import com.vulinh.data.dto.ErrorResponse;
 import com.vulinh.data.exception.EmployeeNotFoundException;
+import com.vulinh.data.exception.EmployeeUnchangedException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -16,5 +17,13 @@ public class GlobalExceptionHandler {
     log.info(ex.getMessage());
 
     return new ErrorResponse("Employee not found");
+  }
+
+  @ExceptionHandler(EmployeeUnchangedException.class)
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  public ErrorResponse handleEmployeeUnchangedException(EmployeeUnchangedException ex) {
+    log.info(ex.getMessage());
+
+    return new ErrorResponse("Employee unchanged");
   }
 }

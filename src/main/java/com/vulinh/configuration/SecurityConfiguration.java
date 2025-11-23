@@ -1,7 +1,8 @@
 package com.vulinh.configuration;
 
+import module java.base;
+
 import com.vulinh.configuration.data.ApplicationProperties;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -10,6 +11,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.oauth2.server.resource.authentication.JwtBearerTokenAuthenticationConverter;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.header.writers.XXssProtectionHeaderWriter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -25,7 +27,7 @@ public class SecurityConfiguration {
   private final ApplicationProperties applicationProperties;
 
   @Bean
-  SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity, JwtConverter jwtConverter) {
+  SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) {
     return httpSecurity
         .headers(
             headers ->
@@ -50,7 +52,9 @@ public class SecurityConfiguration {
         .oauth2ResourceServer(
             customizer ->
                 customizer.jwt(
-                    jwtConfigurer -> jwtConfigurer.jwtAuthenticationConverter(jwtConverter)))
+                    jwtConfigurer ->
+                        jwtConfigurer.jwtAuthenticationConverter(
+                            new JwtBearerTokenAuthenticationConverter())))
         .build();
   }
 

@@ -1,6 +1,6 @@
 application-properties:
-  realm-name: master
-  client-name: spring-client
+  realm-name: ${KEYCLOAK_REALM:master}
+  client-name: ${KEYCLOAK_CLIENT:spring-client}
   no-auth-urls:
     # OpenAPI Swagger URLs
     - /swagger-ui.html
@@ -9,7 +9,7 @@ application-properties:
     - /v3/api-docs.yaml
     # Actuator endpoints:
     - /actuator/**
-server.port: 8088
+server.port: ${SERVER_PORT:8088}
 spring:
   application.name: spring-boot-4-poc
   datasource:
@@ -18,4 +18,7 @@ spring:
     password: ${DATABASE_PASSWORD:123456}
   liquibase:
     enabled: true
+  output.ansi.enabled: always
   security.oauth2.resourceserver.jwt.issuer-uri: http://${KEYCLOAK_HOST:localhost:8080}/realms/${application-properties.realm-name}
+logging.level:
+  org.springframework.security.oauth2: TRACE
